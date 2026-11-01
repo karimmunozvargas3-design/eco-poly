@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#123b2c">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
 <title>ECO-POLY OVALLE — Guardianes del Limarí</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
@@ -25,6 +27,7 @@ input{padding:12px;border:2px solid #c6dfcc;border-radius:12px;min-width:0;backg
 .cell .emoji{font-size:clamp(14px,2vw,24px);line-height:1.2}.cell .name{line-height:1.05;overflow-wrap:anywhere}.cell .price{font-size:clamp(7px,.7vw,10px);color:#61766a}
 .cell.center{grid-column:2/11;grid-row:2/11;background:linear-gradient(145deg,#f5fff4,#d8f0dc);border:0;display:flex;align-items:center;justify-content:center;padding:20px}
 .center h2{font-size:clamp(22px,4vw,48px);color:var(--green);margin:0}.center p{max-width:420px;text-align:center}.center .earth{font-size:clamp(48px,9vw,100px)}
+.deck-row{display:flex;justify-content:center;gap:22px;margin-top:12px;flex-wrap:wrap}.deck{width:64px;height:86px;border:3px solid #fff;border-radius:10px;background:repeating-linear-gradient(45deg,#1d7549 0 7px,#2c9560 7px 14px);box-shadow:3px 4px 0 #125536,0 5px 12px #17352a33;display:grid;place-items:center;color:white;font-size:27px;transform:rotate(-5deg);position:relative}.deck:nth-child(2){transform:rotate(5deg);background:repeating-linear-gradient(45deg,#d79b24 0 7px,#f3c653 7px 14px);box-shadow:3px 4px 0 #a77516,0 5px 12px #17352a33}.deck small{position:absolute;bottom:5px;font-size:8px;font-weight:900;letter-spacing:.5px}.event-mark{display:block;font-size:clamp(6px,1vw,9px);color:#23623e;background:#e5f4e8;border-radius:5px;padding:2px 1px;margin-top:2px}.modalbox.event-reveal{animation:modal-pop .35s ease-out}.event-card-face{margin:12px auto 15px;max-width:310px;min-height:130px;padding:18px 16px;border:5px solid #fff;border-radius:18px;background:linear-gradient(145deg,#e7f7e8,#bde4c6);box-shadow:0 7px 0 #2d8150,0 12px 25px #17352a30;text-align:center;animation:card-flip .8s cubic-bezier(.2,.8,.2,1) both;transform-origin:center}.event-card-face .card-icon{font-size:38px}.event-card-face h3{margin:5px 0;color:#155c38}.event-card-face p{margin:6px 0 0;line-height:1.4}.event-card-face .card-tag{font-size:10px;font-weight:1000;letter-spacing:1px;color:#23623e}@keyframes card-flip{0%{opacity:0;transform:perspective(600px) rotateY(90deg) scale(.7)}55%{opacity:1;transform:perspective(600px) rotateY(-12deg) scale(1.04)}100%{transform:perspective(600px) rotateY(0) scale(1)}}@keyframes modal-pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
 .tokens{display:flex;justify-content:center;align-items:center;gap:3px;flex-wrap:wrap;min-height:27px;padding:2px 0}.token{display:inline-grid;place-items:center;width:25px;height:25px;border:2px solid #fff;border-radius:50%;background:var(--token-color,#64748b);font-size:16px;line-height:1;box-shadow:0 2px 4px #17352a88;filter:drop-shadow(0 1px 1px #333);animation:token-arrive .35s ease-out}.token:first-child{margin-left:0}@keyframes token-arrive{0%{transform:scale(.45) translateY(-5px)}70%{transform:scale(1.18)}100%{transform:scale(1)}}
 .side{display:grid;gap:12px}.side h3{margin:0 0 8px;color:var(--dark)}.player{display:flex;justify-content:space-between;gap:8px;padding:9px;border-radius:12px;background:#eff8ef;margin:5px 0;border-left:5px solid var(--pc)}
 .player.active{outline:3px solid var(--gold);background:#fff9df}.player small{display:block;color:#64796b}.log{height:190px;overflow:auto;background:#f5faf4;padding:10px;border-radius:12px;font-size:13px;line-height:1.45}.log div{padding:4px 0;border-bottom:1px solid #e3eee3}
@@ -65,7 +68,7 @@ button,input{touch-action:manipulation;}
   .center .earth{font-size:clamp(30px,9vw,48px);}
   .center h2{font-size:clamp(12px,3.8vw,18px);line-height:1.1;}
   .center p{font-size:clamp(7px,2vw,10px);line-height:1.15;margin:4px auto;}
-  .center .pill{font-size:7px;padding:3px 5px;}
+  .center .pill{font-size:7px;padding:3px 5px;} .deck{width:42px;height:57px;font-size:20px;border-width:2px}.deck small{font-size:6px}.event-card-face{min-height:115px;padding:14px}.event-card-face .card-icon{font-size:32px}
   .side{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
   .side>.panel{padding:10px;border-radius:14px;min-width:0;}
   .side .wide{grid-column:1/-1;}
@@ -101,7 +104,7 @@ button,input{touch-action:manipulation;}
 </style>
 </head>
 <body>
-<header><div class="brand">🌵 ECO-<span>POLY OVALLE</span></div><div class="head-actions"><div id="connection" class="pill">Desconectado</div><button id="fullscreenBtn" type="button" aria-label="Activar pantalla completa">⛶ Pantalla completa</button></div></header>
+<header><div class="brand">🌵 ECO-<span>POLY OVALLE</span></div><div class="head-actions"><div id="connection" class="pill">Desconectado</div><button id="fullscreenBtn" type="button" aria-label="Instalar y abrir en pantalla completa">⛶ Instalar / pantalla completa</button></div></header>
 <main>
 <section id="lobby" class="panel stack">
   <div style="font-size:58px">🌵💧🏞️</div><h1>ECO-POLY OVALLE</h1>
@@ -128,6 +131,26 @@ button,input{touch-action:manipulation;}
 <div id="modal" class="modal hidden"><div class="modalbox"><h2 id="modalTitle">Evento</h2><p id="modalText"></p><div id="modalButtons" class="row"></div></div></div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+// Instalación como aplicación: en Android oculta la barra del navegador.
+let deferredInstallPrompt=null;
+const installButton=document.getElementById("fullscreenBtn");
+const isStandalone=()=>window.matchMedia("(display-mode: standalone)").matches||window.matchMedia("(display-mode: fullscreen)").matches||window.navigator.standalone===true;
+function updateInstallButton(){installButton.textContent=isStandalone()?"⛶ Pantalla completa":"⛶ Instalar / pantalla completa";}
+window.addEventListener("beforeinstallprompt",event=>{event.preventDefault();deferredInstallPrompt=event;updateInstallButton();});
+window.addEventListener("appinstalled",()=>{deferredInstallPrompt=null;updateInstallButton();});
+installButton.addEventListener("click",async()=>{
+  if(deferredInstallPrompt){deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;updateInstallButton();return;}
+  if(isStandalone()){
+    const el=document.documentElement;
+    try{if(!document.fullscreenElement&&el.requestFullscreen)await el.requestFullscreen();else if(document.exitFullscreen&&document.fullscreenElement)await document.exitFullscreen();}
+    catch(e){alert("La aplicación ya está abierta sin la barra del navegador. Android controla la barra del sistema.");}
+    return;
+  }
+  alert("Para jugar sin la barra de Chrome: toca ⋮ (menú) en Chrome y elige ‘Instalar aplicación’ o ‘Añadir a pantalla principal’. Después abre ECO-POLY desde el nuevo icono. Si no aparece esa opción, primero recarga la página.");
+});
+updateInstallButton();
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(err=>console.warn("No se pudo registrar el modo instalable",err)));}
+
 const socket=io();
 const $=id=>document.getElementById(id);
 let me=null, room=null, state=null, lastActionKey="";
@@ -194,8 +217,8 @@ function tilePosition(i){
 function renderBoard(){
  const b=$("board");b.innerHTML="";
  for(let i=0;i<121;i++){const c=document.createElement("div");c.style.gridColumn=(i%11+1);c.style.gridRow=(Math.floor(i/11)+1);c.style.visibility="hidden";b.appendChild(c)}
- const center=document.createElement("div");center.className="cell center";center.innerHTML='<div><div class="earth">🌎</div><h2>ECO-POLY OVALLE</h2><p>Cuida el agua, recupera la cuenca del Limarí y protege la biodiversidad local.</p><div class="pill">GUARDIANES DEL LIMARÍ</div></div>';$("board").appendChild(center);
- tiles.forEach((t,i)=>{const [x,y]=tilePosition(i);const el=document.createElement("div");el.className="cell";el.style.gridColumn=x;el.style.gridRow=y;const own=state?.properties?.[i];if(t[2]==="land")el.style.setProperty("--tile",groupColor(t[4]));el.innerHTML=`${t[2]==="land"?'<div class="stripe"></div>':''}<div class="emoji">${t[1]}</div><div class="name">${t[0]}</div><div class="price">${t[3]?t[3]+" Eco":""}</div><div class="tokens">${(state?.players||[]).filter(p=>p.pos===i).map(p=>`<span class="token" style="--token-color:${p.color}" title="${escapeHtml(p.name)}">${p.avatar}</span>`).join("")}</div>${own?'<span class="pill" style="font-size:8px;padding:1px">● '+escapeHtml(own.name)+'</span>':''}`;$("board").appendChild(el)});
+ const center=document.createElement("div");center.className="cell center";center.innerHTML='<div><div class="earth">🌎</div><h2>ECO-POLY OVALLE</h2><p>Cuida el agua, recupera la cuenca del Limarí y protege la biodiversidad local.</p><div class="pill">GUARDIANES DEL LIMARÍ</div><div class="deck-row"><div class="deck" aria-label="Mazo de cartas ambientales">🌿<small>AMBIENTE</small></div><div class="deck" aria-label="Mazo de cartas sorpresa">💧<small>DESAFÍOS</small></div></div></div>';$("board").appendChild(center);
+ tiles.forEach((t,i)=>{const [x,y]=tilePosition(i);const el=document.createElement("div");el.className="cell";el.style.gridColumn=x;el.style.gridRow=y;const own=state?.properties?.[i];if(t[2]==="land")el.style.setProperty("--tile",groupColor(t[4]));el.innerHTML=`${t[2]==="land"?'<div class="stripe"></div>':''}<div class="emoji">${t[1]}</div><div class="name">${t[0]}</div>${t[2]==="event"?'<span class="event-mark">🃏 SACAR CARTA</span>':''}<div class="price">${t[3]?t[3]+" Eco":""}</div><div class="tokens">${(state?.players||[]).filter(p=>p.pos===i).map(p=>`<span class="token" style="--token-color:${p.color}" title="${escapeHtml(p.name)}">${p.avatar}</span>`).join("")}</div>${own?'<span class="pill" style="font-size:8px;padding:1px">● '+escapeHtml(own.name)+'</span>':''}`;$("board").appendChild(el)});
 }
 function groupColor(g){return ({"Agua y agricultura":"#4c9ed0","Río Limarí":"#52a9c9",Biodiversidad:"#559b59",Residuos:"#8b70b9","Consumo responsable":"#d9a84c",Prevención:"#e7b83d",Comunidad:"#d9a84c"})[g]||"#65a86d"}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
@@ -245,7 +268,17 @@ function enter(code,s){room=code;state=s;$("lobby").classList.add("hidden");$("g
 socket.on("state",s=>{state=s;render()});
 socket.on("notice",m=>log(m));
 socket.on("errorMessage",m=>showModal("Aviso",m,[{label:"Entendido",fn:()=>{}}]));
-socket.on("eventCard",e=>showModal(e.title,e.description,[{label:"¡Continuar!",fn:()=>socket.emit("resolveEvent")}]));
+socket.on("eventCard",e=>showEventCard(e));
+function showEventCard(e){
+ const box=$("modal").querySelector(".modalbox");box.classList.add("event-reveal");$("modalTitle").textContent="🃏 ¡Carta ambiental!";$("modalText").innerHTML="";
+ const face=document.createElement("div");face.className="event-card-face";
+ const icon=document.createElement("div");icon.className="card-icon";icon.textContent="🌿";
+ const tag=document.createElement("div");tag.className="card-tag";tag.textContent="GUARDIANES DEL LIMARÍ";
+ const title=document.createElement("h3");title.textContent=e.title;
+ const desc=document.createElement("p");desc.textContent=e.description;
+ face.append(tag,icon,title,desc);$("modalText").appendChild(face);$("modalButtons").innerHTML="";
+ const btn=document.createElement("button");btn.textContent="¡Aplicar carta!";btn.onclick=()=>{closeModal();box.classList.remove("event-reveal");socket.emit("resolveEvent")};$("modalButtons").appendChild(btn);$("modal").classList.remove("hidden");
+}
 socket.on("gameOver",m=>showModal("🏆 ¡Partida terminada!",m,[{label:"Cerrar",fn:()=>{}}]));
 </script>
 </body></html>
