@@ -218,12 +218,13 @@ function renderAction(){
  const p=state.players.find(x=>x.id===socket.id), t=tiles[p.pos], own=state.properties[p.pos];$("actionButtons").innerHTML="";
  let desc=`Has llegado a ${t[0]}.`;
  const add=(label,fn)=>{const b=document.createElement("button");b.textContent=label;b.onclick=fn;$("actionButtons").appendChild(b)};
- if(t[2]==="land"||t[2]==="utility"){
+ if(state.pending?.player===socket.id){desc+=" Debes resolver la carta ambiental antes de continuar.";}
+ else if(t[2]==="land"||t[2]==="utility"){
   if(!own&&p.cash>=t[3]){desc+=` Puedes adquirir este territorio por ${t[3]} Eco-monedas.`;add(`Comprar (${t[3]} Eco)`,()=>socket.emit("buy"))}
-  else if(own&&own.id!==socket.id){desc+=` Pertenece a ${own.name}. Debes pagar ${rentFor(p.pos)} Eco-monedas de alquiler.`;add(`Pagar alquiler (${rentFor(p.pos)})`,()=>socket.emit("payRent"))}
+  else if(own&&own.id!==socket.id){desc+=` Pertenece a ${own.name}. El alquiler de ${rentFor(p.pos)} Eco-monedas ya se cobró automáticamente.`;}
   else if(own){desc+=" ¡Este territorio es tuyo!";if(t[2]==="land"&&p.cash>=Math.floor(t[3]*.6))add("Construir mejora",()=>socket.emit("build"))}
   else desc+=" No tienes suficientes Eco-monedas para comprarlo.";
- }else if(t[2]==="event"){desc+=" Roba una carta de evento ambiental.";add("Sacar carta",()=>socket.emit("drawEvent"))}
+ }else if(t[2]==="event"){desc+=" La carta ambiental se ha sacado automáticamente.";}
  else if(t[2]==="tax"){desc+=` Debes aportar ${t[3]} Eco-monedas al fondo planetario.`;add("Pagar aporte",()=>socket.emit("payTax"))}
  else if(t[2]==="jail"){desc+=" Visita el centro de recuperación ambiental. Pierdes un turno.";add("Continuar",()=>socket.emit("finishTurn"))}
  else {desc+=" Tómate un respiro. No ocurre nada.";add("Terminar turno",()=>socket.emit("finishTurn"))}
