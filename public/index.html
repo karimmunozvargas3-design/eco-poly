@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ECO-POLY — El planeta está en tus manos</title>
+<title>ECO-POLY OVALLE — Guardianes del Limarí</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -35,11 +35,11 @@ footer{text-align:center;color:#64806c;padding:20px;font-size:12px}
 </style>
 </head>
 <body>
-<header><div class="brand">🌎 ECO-<span>POLY</span></div><div id="connection" class="pill">Desconectado</div></header>
+<header><div class="brand">🌵 ECO-<span>POLY OVALLE</span></div><div id="connection" class="pill">Desconectado</div></header>
 <main>
 <section id="lobby" class="panel stack">
-  <div style="font-size:58px">🌳🌊☀️</div><h1>ECO-POLY</h1>
-  <p>Compra territorios, impulsa energías limpias y protege el planeta. ¡El futuro está en tus manos!</p>
+  <div style="font-size:58px">🌵💧🏞️</div><h1>ECO-POLY OVALLE</h1>
+  <p>Recorre Ovalle, protege el río Limarí, cuida el agua y fortalece los barrios sostenibles. ¡El futuro del Limarí está en tus manos!</p>
   <input id="playerName" maxlength="16" placeholder="Tu nombre" autocomplete="nickname">
   <div class="stack">
     <button id="createBtn">Crear una sala</button>
@@ -58,7 +58,7 @@ footer{text-align:center;color:#64806c;padding:20px;font-size:12px}
   </aside>
 </section>
 </main>
-<footer>ECO-POLY · Un juego sobre cuidar lo que compartimos. Juego original inspirado en los juegos clásicos de compra de propiedades.</footer>
+<footer>ECO-POLY OVALLE · Juego educativo inspirado en desafíos ambientales de la comuna.</footer>
 <div id="modal" class="modal hidden"><div class="modalbox"><h2 id="modalTitle">Evento</h2><p id="modalText"></p><div id="modalButtons" class="row"></div></div></div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -66,17 +66,58 @@ const socket=io();
 const $=id=>document.getElementById(id);
 let me=null, room=null, state=null, lastActionKey="";
 const tiles=[
-["Salida","🚩","start",0],["Bosque nativo","🌳","land",100,"Bosques"],["Evento verde","♻️","event",0],["Humedal protegido","🦆","land",120,"Bosques"],["Impuesto ecológico","💧","tax",100],["Planta solar","☀️","utility",150],["Costa limpia","🏖️","land",140,"Costas"],["Evento verde","🌱","event",0],["Reserva marina","🐬","land",160,"Costas"],["Parque nacional","🏞️","land",180,"Bosques"],["Pausa consciente","🧘","rest",0],["Centro de reciclaje","♻️","land",200,"Ciudades"],["Evento verde","🌎","event",0],["Huerto comunitario","🥕","land",220,"Ciudades"],["Barrio sostenible","🏡","land",240,"Ciudades"],["Parque eólico","🌬️","utility",150],["Santuario de aves","🦜","land",260,"Biodiversidad"],["Evento verde","🌿","event",0],["Corredor biológico","🦋","land",280,"Biodiversidad"],["Bosque lluvioso","🌴","land",300,"Biodiversidad"],["Visita al vertedero","🗑️","jail",0],["Río protegido","🏞️","land",320,"Aguas"],["Evento verde","🐟","event",0],["Lago cristalino","💎","land",340,"Aguas"],["Planta de tratamiento","🚰","land",360,"Aguas"],["Bono solar","🔆","utility",150],["Isla ecológica","🏝️","land",380,"Costas"],["Eco-mercado","🥬","land",400,"Ciudades"],["Evento verde","🌳","event",0],["Reserva de cóndores","🦅","land",420,"Biodiversidad"],["Día sin autos","🚲","rest",0],["Energía geotérmica","🌋","land",440,"Energía"],["Evento verde","🌦️","event",0],["Parque de turbinas","💨","land",460,"Energía"],["Centro de innovación","🔬","land",480,"Energía"],["Fondo climático","🌍","tax",120],["Bosque regenerado","🌲","land",500,"Bosques"],["Evento verde","🍃","event",0],["Reserva de la biosfera","🦚","land",550,"Biodiversidad"],["Santuario planetario","🌏","land",600,"Biodiversidad"]
+["Salida", "🚩", "start", 0],
+["Huerto del Limarí", "🥕", "land", 100, "Agua y agricultura"],
+["Alerta hídrica", "💧", "event", 0],
+["Ribera del Limarí", "🏞️", "land", 120, "Río Limarí"],
+["Fondo del agua", "🚰", "tax", 100],
+["Atrapanieblas", "🌫️", "utility", 150],
+["Cerro Grande", "⛰️", "land", 140, "Biodiversidad"],
+["Alerta ambiental", "🌱", "event", 0],
+["Peña Blanca", "🌵", "land", 160, "Biodiversidad"],
+["Reserva ecológica", "🦊", "land", 180, "Biodiversidad"],
+["Pausa consciente", "🧘", "rest", 0],
+["Punto limpio", "♻️", "land", 200, "Residuos"],
+["Alerta ambiental", "🗑️", "event", 0],
+["Feria Modelo", "🥬", "land", 220, "Consumo responsable"],
+["Compostaje vecinal", "🍂", "land", 240, "Residuos"],
+["Energía solar", "☀️", "utility", 150],
+["Matorral nativo", "🌿", "land", 260, "Biodiversidad"],
+["Alerta ambiental", "🔥", "event", 0],
+["Corredor de fauna", "🦋", "land", 280, "Biodiversidad"],
+["Quebrada protegida", "🌳", "land", 300, "Biodiversidad"],
+["Jornada de limpieza", "🧤", "jail", 0],
+["Cuenca del Limarí", "💦", "land", 320, "Río Limarí"],
+["Alerta ambiental", "🐟", "event", 0],
+["Embalse La Paloma", "🌊", "land", 340, "Agua y agricultura"],
+["Ahorro de agua", "🚿", "land", 360, "Agua y agricultura"],
+["Bono de energía limpia", "🔆", "utility", 150],
+["Agricultura eficiente", "🌾", "land", 380, "Agua y agricultura"],
+["Mercado local", "🧺", "land", 400, "Consumo responsable"],
+["Alerta ambiental", "🌎", "event", 0],
+["Restauración de suelo", "🪴", "land", 420, "Biodiversidad"],
+["Día sin residuos", "🚲", "rest", 0],
+["Reciclaje comunitario", "♻️", "land", 440, "Residuos"],
+["Alerta ambiental", "🌧️", "event", 0],
+["Prevención de incendios", "🧯", "land", 460, "Prevención"],
+["Educación ambiental", "📚", "land", 480, "Comunidad"],
+["Fondo de emergencia", "🌍", "tax", 120],
+["Reforestación nativa", "🌱", "land", 500, "Biodiversidad"],
+["Alerta ambiental", "🍃", "event", 0],
+["Paisaje de Peña Blanca", "🌫️", "land", 550, "Biodiversidad"],
+["Ovalle sostenible", "🏡", "land", 600, "Comunidad"]
 ];
 const events=[
-{t:"¡Reforestación comunitaria!",d:"Tu comunidad plantó árboles. Recibes 100 Eco-monedas.",m:100},
-{t:"Limpieza de playas",d:"Participaste en una jornada de limpieza. Recibes 80 Eco-monedas.",m:80},
-{t:"Sequía prolongada",d:"Debes contribuir al fondo de emergencia hídrica. Pagas 90 Eco-monedas.",m:-90},
-{t:"Innovación renovable",d:"Tu proyecto de energía limpia recibe apoyo. Recibes 120 Eco-monedas.",m:120},
-{t:"Fauna rescatada",d:"Ayudaste a proteger especies nativas. Recibes 70 Eco-monedas.",m:70},
-{t:"Residuos mal gestionados",d:"Tu ciudad debe financiar una mejora. Pagas 80 Eco-monedas.",m:-80},
-{t:"Transporte sostenible",d:"Promoviste el uso de bicicletas. Recibes 60 Eco-monedas.",m:60},
-{t:"Restauración de humedales",d:"Aportas al cuidado de un humedal. Pagas 50 Eco-monedas y ganas 1 punto verde.",m:-50}
+{t:"Ahorro en el hogar",d:"Organizaste una campaña para reparar filtraciones y usar el agua responsablemente. Recibes 100 Eco-monedas.",m:100},
+{t:"Atrapanieblas en Peña Blanca",d:"La iniciativa comunitaria de captación de niebla suma apoyo y educación ambiental. Recibes 80 Eco-monedas.",m:80},
+{t:"Temporada de escasez hídrica",d:"Aportas al fondo comunitario para promover el uso eficiente del agua. Pagas 90 Eco-monedas.",m:-90},
+{t:"Ribera limpia",d:"Participaste en una jornada educativa de limpieza y cuidado del río Limarí. Recibes 120 Eco-monedas.",m:120},
+{t:"Protección del matorral nativo",d:"Apoyaste la recuperación de flora local y su biodiversidad. Recibes 70 Eco-monedas.",m:70},
+{t:"Microbasural en el barrio",d:"La comunidad debe organizar retiro responsable y prevención de residuos. Pagas 80 Eco-monedas.",m:-80},
+{t:"Compostaje vecinal",d:"Convertiste residuos orgánicos en compost para un huerto comunitario. Recibes 60 Eco-monedas.",m:60},
+{t:"Alerta por turbiedad del río",d:"Se activa un plan educativo de cuidado del agua y apoyo comunitario. Pagas 50 Eco-monedas y ganas 1 punto verde.",m:-50},
+{t:"Prevención de incendios",d:"Una campaña de prevención protege el entorno. Recibes 90 Eco-monedas.",m:90},
+{t:"Residuos de origen minero",d:"Se financia educación y monitoreo ambiental responsable. Pagas 70 Eco-monedas.",m:-70}
 ];
 function tilePosition(i){
  if(i<=10)return [11-i,11];
@@ -87,10 +128,10 @@ function tilePosition(i){
 function renderBoard(){
  const b=$("board");b.innerHTML="";
  for(let i=0;i<121;i++){const c=document.createElement("div");c.style.gridColumn=(i%11+1);c.style.gridRow=(Math.floor(i/11)+1);c.style.visibility="hidden";b.appendChild(c)}
- const center=document.createElement("div");center.className="cell center";center.innerHTML='<div><div class="earth">🌎</div><h2>ECO-POLY</h2><p>Construye un futuro sostenible. Protege la naturaleza, negocia con respeto y reduce la contaminación.</p><div class="pill">EL PLANETA ES DE TODOS</div></div>';$("board").appendChild(center);
+ const center=document.createElement("div");center.className="cell center";center.innerHTML='<div><div class="earth">🌎</div><h2>ECO-POLY OVALLE</h2><p>Cuida el agua, recupera la cuenca del Limarí y protege la biodiversidad local.</p><div class="pill">GUARDIANES DEL LIMARÍ</div></div>';$("board").appendChild(center);
  tiles.forEach((t,i)=>{const [x,y]=tilePosition(i);const el=document.createElement("div");el.className="cell";el.style.gridColumn=x;el.style.gridRow=y;const own=state?.properties?.[i];if(t[2]==="land")el.style.setProperty("--tile",groupColor(t[4]));el.innerHTML=`${t[2]==="land"?'<div class="stripe"></div>':''}<div class="emoji">${t[1]}</div><div class="name">${t[0]}</div><div class="price">${t[3]?t[3]+" Eco":""}</div><div class="tokens">${(state?.players||[]).filter(p=>p.pos===i).map(p=>`<span class="token">${p.avatar}</span>`).join("")}</div>${own?'<span class="pill" style="font-size:8px;padding:1px">● '+escapeHtml(own.name)+'</span>':''}`;$("board").appendChild(el)});
 }
-function groupColor(g){return ({Bosques:"#559b59",Costas:"#52a9c9",Ciudades:"#d9a84c",Biodiversidad:"#8b70b9",Aguas:"#4c9ed0",Energía:"#e7b83d"})[g]||"#65a86d"}
+function groupColor(g){return ({"Agua y agricultura":"#4c9ed0","Río Limarí":"#52a9c9",Biodiversidad:"#559b59",Residuos:"#8b70b9","Consumo responsable":"#d9a84c",Prevención:"#e7b83d",Comunidad:"#d9a84c"})[g]||"#65a86d"}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function log(msg){const d=document.createElement("div");d.textContent=msg;$("log").prepend(d)}
 function showModal(title,desc,buttons){$("modalTitle").textContent=title;$("modalText").textContent=desc;$("modalButtons").innerHTML="";buttons.forEach(b=>{const x=document.createElement("button");x.textContent=b.label;x.onclick=()=>{closeModal();b.fn()};$("modalButtons").appendChild(x)});$("modal").classList.remove("hidden")}

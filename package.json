@@ -1,9 +1,14 @@
 {
-  "name": "eco-poly",
-  "version": "1.0.0",
+  "name": "eco-poly-ovalle",
+  "version": "1.1.0",
   "private": true,
-  "description": "Juego de mesa online con temática medioambiental",
+  "description": "Juego multijugador educativo sobre los desafíos ambientales de Ovalle y la cuenca del Limarí",
   "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "dependencies": { "express": "^4.21.2", "socket.io": "^4.8.1" }
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
 }

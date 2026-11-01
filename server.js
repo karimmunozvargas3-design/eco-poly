@@ -8,17 +8,58 @@ const io = new Server(server, { cors: { origin: "*" } });
 app.use(express.static("public"));
 
 const tiles = [
-["Salida","🚩","start",0],["Bosque nativo","🌳","land",100],["Evento verde","♻️","event",0],["Humedal protegido","🦆","land",120],["Impuesto ecológico","💧","tax",100],["Planta solar","☀️","utility",150],["Costa limpia","🏖️","land",140],["Evento verde","🌱","event",0],["Reserva marina","🐬","land",160],["Parque nacional","🏞️","land",180],["Pausa consciente","🧘","rest",0],["Centro de reciclaje","♻️","land",200],["Evento verde","🌎","event",0],["Huerto comunitario","🥕","land",220],["Barrio sostenible","🏡","land",240],["Parque eólico","🌬️","utility",150],["Santuario de aves","🦜","land",260],["Evento verde","🌿","event",0],["Corredor biológico","🦋","land",280],["Bosque lluvioso","🌴","land",300],["Visita al vertedero","🗑️","jail",0],["Río protegido","🏞️","land",320],["Evento verde","🐟","event",0],["Lago cristalino","💎","land",340],["Planta de tratamiento","🚰","land",360],["Bono solar","🔆","utility",150],["Isla ecológica","🏝️","land",380],["Eco-mercado","🥬","land",400],["Evento verde","🌳","event",0],["Reserva de cóndores","🦅","land",420],["Día sin autos","🚲","rest",0],["Energía geotérmica","🌋","land",440],["Evento verde","🌦️","event",0],["Parque de turbinas","💨","land",460],["Centro de innovación","🔬","land",480],["Fondo climático","🌍","tax",120],["Bosque regenerado","🌲","land",500],["Evento verde","🍃","event",0],["Reserva de la biosfera","🦚","land",550],["Santuario planetario","🌏","land",600]
+["Salida", "🚩", "start", 0],
+["Huerto del Limarí", "🥕", "land", 100, "Agua y agricultura"],
+["Alerta hídrica", "💧", "event", 0],
+["Ribera del Limarí", "🏞️", "land", 120, "Río Limarí"],
+["Fondo del agua", "🚰", "tax", 100],
+["Atrapanieblas", "🌫️", "utility", 150],
+["Cerro Grande", "⛰️", "land", 140, "Biodiversidad"],
+["Alerta ambiental", "🌱", "event", 0],
+["Peña Blanca", "🌵", "land", 160, "Biodiversidad"],
+["Reserva ecológica", "🦊", "land", 180, "Biodiversidad"],
+["Pausa consciente", "🧘", "rest", 0],
+["Punto limpio", "♻️", "land", 200, "Residuos"],
+["Alerta ambiental", "🗑️", "event", 0],
+["Feria Modelo", "🥬", "land", 220, "Consumo responsable"],
+["Compostaje vecinal", "🍂", "land", 240, "Residuos"],
+["Energía solar", "☀️", "utility", 150],
+["Matorral nativo", "🌿", "land", 260, "Biodiversidad"],
+["Alerta ambiental", "🔥", "event", 0],
+["Corredor de fauna", "🦋", "land", 280, "Biodiversidad"],
+["Quebrada protegida", "🌳", "land", 300, "Biodiversidad"],
+["Jornada de limpieza", "🧤", "jail", 0],
+["Cuenca del Limarí", "💦", "land", 320, "Río Limarí"],
+["Alerta ambiental", "🐟", "event", 0],
+["Embalse La Paloma", "🌊", "land", 340, "Agua y agricultura"],
+["Ahorro de agua", "🚿", "land", 360, "Agua y agricultura"],
+["Bono de energía limpia", "🔆", "utility", 150],
+["Agricultura eficiente", "🌾", "land", 380, "Agua y agricultura"],
+["Mercado local", "🧺", "land", 400, "Consumo responsable"],
+["Alerta ambiental", "🌎", "event", 0],
+["Restauración de suelo", "🪴", "land", 420, "Biodiversidad"],
+["Día sin residuos", "🚲", "rest", 0],
+["Reciclaje comunitario", "♻️", "land", 440, "Residuos"],
+["Alerta ambiental", "🌧️", "event", 0],
+["Prevención de incendios", "🧯", "land", 460, "Prevención"],
+["Educación ambiental", "📚", "land", 480, "Comunidad"],
+["Fondo de emergencia", "🌍", "tax", 120],
+["Reforestación nativa", "🌱", "land", 500, "Biodiversidad"],
+["Alerta ambiental", "🍃", "event", 0],
+["Paisaje de Peña Blanca", "🌫️", "land", 550, "Biodiversidad"],
+["Ovalle sostenible", "🏡", "land", 600, "Comunidad"]
 ];
 const cards = [
-["¡Reforestación comunitaria!","Tu comunidad plantó árboles. Recibes 100 Eco-monedas.",100],
-["Limpieza de playas","Participaste en una jornada de limpieza. Recibes 80 Eco-monedas.",80],
-["Sequía prolongada","Debes contribuir al fondo de emergencia hídrica. Pagas 90 Eco-monedas.",-90],
-["Innovación renovable","Tu proyecto de energía limpia recibe apoyo. Recibes 120 Eco-monedas.",120],
-["Fauna rescatada","Ayudaste a proteger especies nativas. Recibes 70 Eco-monedas.",70],
-["Residuos mal gestionados","Tu ciudad debe financiar una mejora. Pagas 80 Eco-monedas.",-80],
-["Transporte sostenible","Promoviste el uso de bicicletas. Recibes 60 Eco-monedas.",60],
-["Restauración de humedales","Aportas al cuidado de un humedal. Pagas 50 Eco-monedas y ganas 1 punto verde.",-50]
+["Ahorro en el hogar", "Organizaste una campaña para reparar filtraciones y usar el agua responsablemente. Recibes 100 Eco-monedas.", 100],
+["Atrapanieblas en Peña Blanca", "La iniciativa comunitaria de captación de niebla suma apoyo y educación ambiental. Recibes 80 Eco-monedas.", 80],
+["Temporada de escasez hídrica", "Aportas al fondo comunitario para promover el uso eficiente del agua. Pagas 90 Eco-monedas.", -90],
+["Ribera limpia", "Participaste en una jornada educativa de limpieza y cuidado del río Limarí. Recibes 120 Eco-monedas.", 120],
+["Protección del matorral nativo", "Apoyaste la recuperación de flora local y su biodiversidad. Recibes 70 Eco-monedas.", 70],
+["Microbasural en el barrio", "La comunidad debe organizar retiro responsable y prevención de residuos. Pagas 80 Eco-monedas.", -80],
+["Compostaje vecinal", "Convertiste residuos orgánicos en compost para un huerto comunitario. Recibes 60 Eco-monedas.", 60],
+["Alerta por turbiedad del río", "Se activa un plan educativo de cuidado del agua y apoyo comunitario. Pagas 50 Eco-monedas y ganas 1 punto verde.", -50],
+["Prevención de incendios", "Una campaña de prevención protege el entorno. Recibes 90 Eco-monedas.", 90],
+["Residuos de origen minero", "Se financia educación y monitoreo ambiental responsable. Pagas 70 Eco-monedas.", -70]
 ];
 const rooms = new Map();
 const colors=["#e76f51","#277da1","#9b5de5","#43aa8b","#f8961e","#577590"];
