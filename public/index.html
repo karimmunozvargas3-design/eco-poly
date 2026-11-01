@@ -56,16 +56,18 @@ button,input{touch-action:manipulation;}
   button{min-height:46px;padding:12px 13px;font-size:14px;}
   #lobby .row{display:grid;grid-template-columns:minmax(0,1fr) auto;}
   #game{display:flex;flex-direction:column;gap:10px;}
-  .board-wrap{width:100%;padding:4px;border-radius:14px;border-width:2px;}
-  .board{width:100%;grid-template-rows:repeat(11,minmax(0,8.25vw));gap:2px;padding:2px;border-radius:10px;}
-  .cell{border-radius:4px;padding:2px 1px;font-size:clamp(6px,1.65vw,8px);line-height:1.02;}
-  .cell .stripe{height:4px;margin:-2px -1px 1px;}
-  .cell .emoji{font-size:clamp(12px,3.8vw,18px);line-height:1;}
-  .cell .name{font-size:clamp(5px,1.45vw,7px);line-height:1;overflow-wrap:anywhere;}
-  .cell .price{font-size:clamp(5px,1.2vw,6px);line-height:1;}
-  /* Fichas compactas en cuadrícula: todas quedan completas incluso si coinciden 6 jugadores. */
-  .tokens{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:clamp(10px,3.1vw,13px);justify-items:center;align-content:center;align-self:center;width:100%;min-height:0;height:auto;gap:1px;padding:1px 0;overflow:visible;}
-  .token{width:clamp(10px,3.1vw,13px);height:clamp(10px,3.1vw,13px);min-width:0;font-size:clamp(7px,2.1vw,9px);border:1px solid #fff;box-shadow:0 1px 2px #17352a88;flex:none;}
+  /* Tablero desplazable horizontalmente: casillas y fichas conservan un tamaño legible. */
+  .board-wrap{width:100%;padding:5px;border-radius:14px;border-width:2px;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;}
+  .board{width:100%;min-width:610px;grid-template-rows:repeat(11,52px);gap:3px;padding:3px;border-radius:10px;}
+  .cell{border-radius:5px;padding:3px 2px 29px;font-size:8px;line-height:1.05;overflow:visible;}
+  .cell .stripe{height:5px;margin:-3px -2px 2px;}
+  .cell .emoji{font-size:18px;line-height:1.05;}
+  .cell .name{font-size:8px;line-height:1.05;overflow-wrap:anywhere;}
+  .cell .price{font-size:7px;line-height:1;}
+  /* Fichas ancladas dentro de la casilla; no cuelgan ni quedan cortadas entre filas. */
+  .tokens{position:absolute;left:2px;right:2px;bottom:2px;display:grid;grid-template-columns:repeat(3,14px);grid-auto-rows:14px;justify-content:center;align-content:center;gap:1px;min-height:0;height:auto;padding:0;overflow:visible;z-index:2;}
+  .token{width:14px;height:14px;min-width:14px;font-size:9px;border:1px solid #fff;box-shadow:0 1px 2px #17352a88;flex:none;}
+  .property-owner{position:absolute;bottom:19px;left:2px;right:2px;font-size:6px!important;line-height:1;padding:1px 2px!important;}
   .cell.center{padding:4px;}
   .center .earth{font-size:clamp(30px,9vw,48px);}.board-dice{gap:6px;min-height:35px;margin:5px auto}.board-die{width:clamp(22px,7vw,32px);height:clamp(22px,7vw,32px);font-size:clamp(16px,5vw,23px);border-width:2px;border-radius:7px}
   .center h2{font-size:clamp(12px,3.8vw,18px);line-height:1.1;}
@@ -94,10 +96,7 @@ button,input{touch-action:manipulation;}
   footer{padding:14px 8px;font-size:11px;}
 }
 @media(max-width:360px){
-  .board{grid-template-rows:repeat(11,minmax(0,8.05vw));gap:1px;padding:1px;}
-  .cell .emoji{font-size:12px;}
-  .tokens{grid-auto-rows:10px;min-height:0;}
-  .token{width:10px;height:10px;font-size:7px;}
+  .board{min-width:590px;grid-template-rows:repeat(11,50px);gap:2px;}
   .side{gap:6px;}
   .side>.panel{padding:8px;}
 }
