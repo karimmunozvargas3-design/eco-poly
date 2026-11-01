@@ -97,10 +97,11 @@ button,input{touch-action:manipulation;}
   .side>.panel{padding:8px;}
 }
 
+.head-actions{display:flex;align-items:center;gap:9px}#fullscreenBtn{padding:8px 12px;font-size:13px;background:#e5f4e8;color:#123b2c;box-shadow:0 2px 0 #a8cbb0}@media(max-width:600px){#fullscreenBtn{font-size:12px;padding:8px 9px}.head-actions{gap:5px}}body.fullscreen-fallback header{padding-top:calc(8px + env(safe-area-inset-top))}
 </style>
 </head>
 <body>
-<header><div class="brand">🌵 ECO-<span>POLY OVALLE</span></div><div id="connection" class="pill">Desconectado</div></header>
+<header><div class="brand">🌵 ECO-<span>POLY OVALLE</span></div><div class="head-actions"><div id="connection" class="pill">Desconectado</div><button id="fullscreenBtn" type="button" aria-label="Activar pantalla completa">⛶ Pantalla completa</button></div></header>
 <main>
 <section id="lobby" class="panel stack">
   <div style="font-size:58px">🌵💧🏞️</div><h1>ECO-POLY OVALLE</h1>
