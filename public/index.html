@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ECO-POLY — El planeta está en tus manos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--green:#1d7549;--dark:#123b2c;--mint:#e8f5e9;--gold:#ffd166;--ink:#17352a;--paper:#fffdf5}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#e6f4e8,#d7eadb);font-family:Nunito,system-ui,sans-serif;color:var(--ink)}
+button,input{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 15px;font-weight:900;background:var(--green);color:white;box-shadow:0 3px 0 #125536}button:disabled{opacity:.45;cursor:not-allowed}
+header{display:flex;justify-content:space-between;align-items:center;padding:14px 4vw;background:var(--dark);color:white;gap:12px;flex-wrap:wrap}
+.brand{font-size:clamp(20px,3vw,30px);font-weight:1000;letter-spacing:1px}.brand span{color:#a7e7b5}
+main{max-width:1400px;margin:auto;padding:20px}.panel{background:#ffffffdc;border:2px solid #c9e3cf;border-radius:20px;padding:20px;box-shadow:0 8px 25px #245b3320}
+.hidden{display:none!important}.muted{color:#61766a}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.stack{display:grid;gap:12px}
+input{padding:12px;border:2px solid #c6dfcc;border-radius:12px;min-width:0;background:white}
+#lobby{max-width:560px;margin:6vh auto;text-align:center}#lobby h1{font-size:clamp(30px,6vw,52px);margin:5px;color:var(--dark)}#lobby p{line-height:1.5}
+#game{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:16px;align-items:start}
+.board-wrap{background:#cce8d0;padding:12px;border-radius:24px;border:3px solid #9bcaa6}
+.board{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));grid-template-rows:repeat(11,minmax(55px,7.4vw));gap:4px;background:#b2d9b9;padding:5px;border-radius:15px}
+.cell{background:var(--paper);border:1px solid #c9d8c9;border-radius:7px;position:relative;padding:4px 3px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-width:0;text-align:center;font-size:clamp(8px,.85vw,12px);font-weight:800}
+.cell .stripe{height:8px;margin:-4px -3px 2px;background:var(--tile,#65a86d);flex-shrink:0}
+.cell .emoji{font-size:clamp(14px,2vw,24px);line-height:1.2}.cell .name{line-height:1.05;overflow-wrap:anywhere}.cell .price{font-size:clamp(7px,.7vw,10px);color:#61766a}
+.cell.center{grid-column:2/11;grid-row:2/11;background:linear-gradient(145deg,#f5fff4,#d8f0dc);border:0;display:flex;align-items:center;justify-content:center;padding:20px}
+.center h2{font-size:clamp(22px,4vw,48px);color:var(--green);margin:0}.center p{max-width:420px;text-align:center}.center .earth{font-size:clamp(48px,9vw,100px)}
+.tokens{display:flex;justify-content:center;gap:2px;flex-wrap:wrap}.token{font-size:15px;filter:drop-shadow(0 1px 1px #333)}
+.side{display:grid;gap:12px}.side h3{margin:0 0 8px;color:var(--dark)}.player{display:flex;justify-content:space-between;gap:8px;padding:9px;border-radius:12px;background:#eff8ef;margin:5px 0;border-left:5px solid var(--pc)}
+.player.active{outline:3px solid var(--gold);background:#fff9df}.player small{display:block;color:#64796b}.log{height:190px;overflow:auto;background:#f5faf4;padding:10px;border-radius:12px;font-size:13px;line-height:1.45}.log div{padding:4px 0;border-bottom:1px solid #e3eee3}
+.action{background:#fff7db;border:2px solid #f0d98c;border-radius:14px;padding:12px}.action h3{margin:0 0 6px}.pill{display:inline-block;background:#e5f4e8;color:#23623e;border-radius:99px;padding:4px 9px;font-size:12px;font-weight:900}
+#status{font-weight:900}.bigdice{font-size:30px}.modal{position:fixed;inset:0;background:#09251dcc;display:grid;place-items:center;padding:18px;z-index:5}.modalbox{max-width:460px;width:100%;background:white;border-radius:20px;padding:22px;box-shadow:0 15px 60px #0005}.modalbox h2{margin-top:0}.modalbox .row button{flex:1}
+footer{text-align:center;color:#64806c;padding:20px;font-size:12px}
+@media(max-width:850px){#game{grid-template-columns:1fr}.board{grid-template-rows:repeat(11,minmax(45px,10vw))}.side{grid-template-columns:repeat(2,minmax(0,1fr))}.side .wide{grid-column:1/-1}}
+@media(max-width:520px){main{padding:9px}.panel{padding:12px}.board-wrap{padding:5px}.board{gap:2px;padding:3px;grid-template-rows:repeat(11,minmax(34px,9.2vw))}.cell{padding:2px 1px}.cell .stripe{height:5px;margin:-2px -1px 1px}.side{grid-template-columns:1fr}.side .wide{grid-column:auto}.log{height:130px}}
+</style>
+</head>
+<body>
+<header><div class="brand">🌎 ECO-<span>POLY</span></div><div id="connection" class="pill">Desconectado</div></header>
+<main>
+<section id="lobby" class="panel stack">
+  <div style="font-size:58px">🌳🌊☀️</div><h1>ECO-POLY</h1>
+  <p>Compra territorios, impulsa energías limpias y protege el planeta. ¡El futuro está en tus manos!</p>
+  <input id="playerName" maxlength="16" placeholder="Tu nombre" autocomplete="nickname">
+  <div class="stack">
+    <button id="createBtn">Crear una sala</button>
+    <div class="row"><input id="roomCode" placeholder="Código de sala" maxlength="5" style="flex:1;text-transform:uppercase"><button id="joinBtn">Unirse</button></div>
+  </div>
+  <p class="muted">De 2 a 6 jugadores · Multijugador online</p>
+  <p id="lobbyMsg" class="muted"></p>
+</section>
+<section id="game" class="hidden">
+  <div class="board-wrap"><div id="board" class="board"></div></div>
+  <aside class="side">
+    <div class="panel"><h3>🌱 Partida</h3><div class="row"><span class="pill">Sala <b id="roomLabel">-----</b></span><button id="copyBtn" style="padding:6px 10px">Copiar código</button></div><p id="status">Esperando jugadores…</p><div id="players"></div></div>
+    <div class="panel"><h3>🎲 Tu turno</h3><div class="row"><button id="rollBtn" disabled>Lanzar dados</button><span class="bigdice" id="dice">⚄ ⚄</span></div><p id="turnHint" class="muted">El anfitrión puede iniciar cuando haya al menos 2 jugadores.</p><button id="startBtn" class="hidden">Comenzar partida</button></div>
+    <div class="panel action wide" id="actionBox"><h3>🌍 Acciones</h3><p id="actionText">Únete a una sala para comenzar.</p><div id="actionButtons" class="row"></div></div>
+    <div class="panel wide"><h3>📜 Registro de la partida</h3><div id="log" class="log"></div></div>
+  </aside>
+</section>
+</main>
+<footer>ECO-POLY · Un juego sobre cuidar lo que compartimos. Juego original inspirado en los juegos clásicos de compra de propiedades.</footer>
+<div id="modal" class="modal hidden"><div class="modalbox"><h2 id="modalTitle">Evento</h2><p id="modalText"></p><div id="modalButtons" class="row"></div></div></div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const socket=io();
+const $=id=>document.getElementById(id);
+let me=null, room=null, state=null, lastActionKey="";
+const tiles=[
+["Salida","🚩","start",0],["Bosque nativo","🌳","land",100,"Bosques"],["Evento verde","♻️","event",0],["Humedal protegido","🦆","land",120,"Bosques"],["Impuesto ecológico","💧","tax",100],["Planta solar","☀️","utility",150],["Costa limpia","🏖️","land",140,"Costas"],["Evento verde","🌱","event",0],["Reserva marina","🐬","land",160,"Costas"],["Parque nacional","🏞️","land",180,"Bosques"],["Pausa consciente","🧘","rest",0],["Centro de reciclaje","♻️","land",200,"Ciudades"],["Evento verde","🌎","event",0],["Huerto comunitario","🥕","land",220,"Ciudades"],["Barrio sostenible","🏡","land",240,"Ciudades"],["Parque eólico","🌬️","utility",150],["Santuario de aves","🦜","land",260,"Biodiversidad"],["Evento verde","🌿","event",0],["Corredor biológico","🦋","land",280,"Biodiversidad"],["Bosque lluvioso","🌴","land",300,"Biodiversidad"],["Visita al vertedero","🗑️","jail",0],["Río protegido","🏞️","land",320,"Aguas"],["Evento verde","🐟","event",0],["Lago cristalino","💎","land",340,"Aguas"],["Planta de tratamiento","🚰","land",360,"Aguas"],["Bono solar","🔆","utility",150],["Isla ecológica","🏝️","land",380,"Costas"],["Eco-mercado","🥬","land",400,"Ciudades"],["Evento verde","🌳","event",0],["Reserva de cóndores","🦅","land",420,"Biodiversidad"],["Día sin autos","🚲","rest",0],["Energía geotérmica","🌋","land",440,"Energía"],["Evento verde","🌦️","event",0],["Parque de turbinas","💨","land",460,"Energía"],["Centro de innovación","🔬","land",480,"Energía"],["Fondo climático","🌍","tax",120],["Bosque regenerado","🌲","land",500,"Bosques"],["Evento verde","🍃","event",0],["Reserva de la biosfera","🦚","land",550,"Biodiversidad"],["Santuario planetario","🌏","land",600,"Biodiversidad"]
+];
+const events=[
+{t:"¡Reforestación comunitaria!",d:"Tu comunidad plantó árboles. Recibes 100 Eco-monedas.",m:100},
+{t:"Limpieza de playas",d:"Participaste en una jornada de limpieza. Recibes 80 Eco-monedas.",m:80},
+{t:"Sequía prolongada",d:"Debes contribuir al fondo de emergencia hídrica. Pagas 90 Eco-monedas.",m:-90},
+{t:"Innovación renovable",d:"Tu proyecto de energía limpia recibe apoyo. Recibes 120 Eco-monedas.",m:120},
+{t:"Fauna rescatada",d:"Ayudaste a proteger especies nativas. Recibes 70 Eco-monedas.",m:70},
+{t:"Residuos mal gestionados",d:"Tu ciudad debe financiar una mejora. Pagas 80 Eco-monedas.",m:-80},
+{t:"Transporte sostenible",d:"Promoviste el uso de bicicletas. Recibes 60 Eco-monedas.",m:60},
+{t:"Restauración de humedales",d:"Aportas al cuidado de un humedal. Pagas 50 Eco-monedas y ganas 1 punto verde.",m:-50}
+];
+function tilePosition(i){
+ if(i<=10)return [11-i,11];
+ if(i<=19)return [1,21-i];
+ if(i<=29)return [i-19,1];
+ return [11, i-29];
+}
+function renderBoard(){
+ const b=$("board");b.innerHTML="";
+ for(let i=0;i<121;i++){const c=document.createElement("div");c.style.gridColumn=(i%11+1);c.style.gridRow=(Math.floor(i/11)+1);c.style.visibility="hidden";b.appendChild(c)}
+ const center=document.createElement("div");center.className="cell center";center.innerHTML='<div><div class="earth">🌎</div><h2>ECO-POLY</h2><p>Construye un futuro sostenible. Protege la naturaleza, negocia con respeto y reduce la contaminación.</p><div class="pill">EL PLANETA ES DE TODOS</div></div>';$("board").appendChild(center);
+ tiles.forEach((t,i)=>{const [x,y]=tilePosition(i);const el=document.createElement("div");el.className="cell";el.style.gridColumn=x;el.style.gridRow=y;const own=state?.properties?.[i];if(t[2]==="land")el.style.setProperty("--tile",groupColor(t[4]));el.innerHTML=`${t[2]==="land"?'<div class="stripe"></div>':''}<div class="emoji">${t[1]}</div><div class="name">${t[0]}</div><div class="price">${t[3]?t[3]+" Eco":""}</div><div class="tokens">${(state?.players||[]).filter(p=>p.pos===i).map(p=>`<span class="token">${p.avatar}</span>`).join("")}</div>${own?'<span class="pill" style="font-size:8px;padding:1px">● '+escapeHtml(own.name)+'</span>':''}`;$("board").appendChild(el)});
+}
+function groupColor(g){return ({Bosques:"#559b59",Costas:"#52a9c9",Ciudades:"#d9a84c",Biodiversidad:"#8b70b9",Aguas:"#4c9ed0",Energía:"#e7b83d"})[g]||"#65a86d"}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function log(msg){const d=document.createElement("div");d.textContent=msg;$("log").prepend(d)}
+function showModal(title,desc,buttons){$("modalTitle").textContent=title;$("modalText").textContent=desc;$("modalButtons").innerHTML="";buttons.forEach(b=>{const x=document.createElement("button");x.textContent=b.label;x.onclick=()=>{closeModal();b.fn()};$("modalButtons").appendChild(x)});$("modal").classList.remove("hidden")}
+function closeModal(){$("modal").classList.add("hidden")}
+function current(){return state?.players?.find(p=>p.id===state.current)}
+function myTurn(){return state&&state.current===socket.id&&!state.finished}
+function render(){
+ if(!state)return;renderBoard();$("players").innerHTML="";
+ state.players.forEach(p=>{const d=document.createElement("div");d.className="player"+(p.id===state.current?" active":"");d.style.setProperty("--pc",p.color);d.innerHTML=`<div>${p.avatar} <b>${escapeHtml(p.name)}</b><small>${p.id===state.host?"Anfitrión":p.id===socket.id?"Tú":"Guardián"} · Casilla ${p.pos+1}</small></div><b>${p.cash} Eco</b>`;$("players").appendChild(d)});
+ const cp=current();$("status").textContent=state.finished?"Partida finalizada":cp?`Turno de ${cp.name}`:"Esperando jugadores…";
+ $("rollBtn").disabled=!myTurn()||state.rolled;$("startBtn").classList.toggle("hidden",!(socket.id===state.host&&!state.started));$("startBtn").disabled=state.players.length<2;
+ $("turnHint").textContent=state.started?(myTurn()?(state.rolled?"Completa tu acción para terminar el turno.":"¡Es tu turno! Lanza los dados."):"Espera tu turno."):"Comparte el código e inicia cuando haya al menos 2 jugadores.";
+ $("dice").textContent=state.lastDice?`🎲 ${state.lastDice[0]} + ${state.lastDice[1]}`:"⚄ ⚄";
+ $("roomLabel").textContent=room||"-----";$("connection").textContent="Conectado";$("connection").style.background="#d9f5df";
+ if(!state.started){$("actionText").textContent=`Jugadores conectados: ${state.players.length}/6. Se necesitan al menos 2.`;$("actionButtons").innerHTML="";return}
+ if(myTurn()&&state.rolled){renderAction()}else{$("actionText").textContent=myTurn()?"Lanza los dados para avanzar.":`Esperando a ${cp?.name||"otro jugador"}…`;$("actionButtons").innerHTML=""}
+}
+function renderAction(){
+ const p=state.players.find(x=>x.id===socket.id), t=tiles[p.pos], own=state.properties[p.pos];$("actionButtons").innerHTML="";
+ let desc=`Has llegado a ${t[0]}.`;
+ const add=(label,fn)=>{const b=document.createElement("button");b.textContent=label;b.onclick=fn;$("actionButtons").appendChild(b)};
+ if(t[2]==="land"||t[2]==="utility"){
+  if(!own&&p.cash>=t[3]){desc+=` Puedes adquirir este territorio por ${t[3]} Eco-monedas.`;add(`Comprar (${t[3]} Eco)`,()=>socket.emit("buy"))}
+  else if(own&&own.id!==socket.id){desc+=` Pertenece a ${own.name}. Debes pagar ${rentFor(p.pos)} Eco-monedas de alquiler.`;add(`Pagar alquiler (${rentFor(p.pos)})`,()=>socket.emit("payRent"))}
+  else if(own){desc+=" ¡Este territorio es tuyo!";if(t[2]==="land"&&p.cash>=Math.floor(t[3]*.6))add("Construir mejora",()=>socket.emit("build"))}
+  else desc+=" No tienes suficientes Eco-monedas para comprarlo.";
+ }else if(t[2]==="event"){desc+=" Roba una carta de evento ambiental.";add("Sacar carta",()=>socket.emit("drawEvent"))}
+ else if(t[2]==="tax"){desc+=` Debes aportar ${t[3]} Eco-monedas al fondo planetario.`;add("Pagar aporte",()=>socket.emit("payTax"))}
+ else if(t[2]==="jail"){desc+=" Visita el centro de recuperación ambiental. Pierdes un turno.";add("Continuar",()=>socket.emit("finishTurn"))}
+ else {desc+=" Tómate un respiro. No ocurre nada.";add("Terminar turno",()=>socket.emit("finishTurn"))}
+ $("actionText").textContent=desc;
+ add("Finalizar turno",()=>socket.emit("finishTurn"));
+}
+function rentFor(pos){const o=state.properties[pos];return o?.level?Math.round(tiles[pos][3]*(.18+o.level*.16)):Math.round(tiles[pos][3]*.12)}
+$("createBtn").onclick=()=>{const name=$("playerName").value.trim();if(!name)return msg("Escribe tu nombre.");socket.emit("createRoom",{name})};
+$("joinBtn").onclick=()=>{const name=$("playerName").value.trim(),code=$("roomCode").value.trim().toUpperCase();if(!name||!code)return msg("Escribe tu nombre y el código de sala.");socket.emit("joinRoom",{name,code})};
+function msg(s){$("lobbyMsg").textContent=s}
+$("startBtn").onclick=()=>socket.emit("startGame");$("rollBtn").onclick=()=>socket.emit("roll");
+$("copyBtn").onclick=()=>{navigator.clipboard?.writeText(room);$("copyBtn").textContent="¡Copiado!";setTimeout(()=>$("copyBtn").textContent="Copiar código",1400)};
+socket.on("connect",()=>{$("connection").textContent="Conectado";$("connection").style.background="#d9f5df"});
+socket.on("disconnect",()=>{$("connection").textContent="Reconectando…";$("connection").style.background="#ffe4c7"});
+socket.on("roomCreated",d=>enter(d.code,d.state));socket.on("joinedRoom",d=>enter(d.code,d.state));
+function enter(code,s){room=code;state=s;$("lobby").classList.add("hidden");$("game").classList.remove("hidden");$("log").innerHTML="";log(`Te uniste a la sala ${code}.`);render()}
+socket.on("state",s=>{state=s;render()});
+socket.on("notice",m=>log(m));
+socket.on("errorMessage",m=>showModal("Aviso",m,[{label:"Entendido",fn:()=>{}}]));
+socket.on("eventCard",e=>showModal(e.title,e.description,[{label:"¡Continuar!",fn:()=>socket.emit("resolveEvent")}]));
+socket.on("gameOver",m=>showModal("🏆 ¡Partida terminada!",m,[{label:"Cerrar",fn:()=>{}}]));
+</script>
+</body></html>
