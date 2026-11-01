@@ -102,6 +102,48 @@ button,input{touch-action:manipulation;}
 }
 
 .head-actions{display:flex;align-items:center;gap:9px}#fullscreenBtn{padding:8px 12px;font-size:13px;background:#e5f4e8;color:#123b2c;box-shadow:0 2px 0 #a8cbb0}@media(max-width:600px){#fullscreenBtn{font-size:12px;padding:8px 9px}.head-actions{gap:5px}}body.fullscreen-fallback header{padding-top:calc(8px + env(safe-area-inset-top))}
+
+/* Renovación visual: acabado más pulido, contraste y microinteracciones */
+:root{--green:#176b43;--dark:#103b2b;--mint:#e8f5e9;--gold:#ffd166;--ink:#17352a;--paper:#fffef8}
+body{background:radial-gradient(ellipse at 12% 5%,#f5ffe9 0,transparent 34%),radial-gradient(ellipse at 90% 18%,#c5e8d0 0,transparent 32%),linear-gradient(145deg,#dcefe0,#c8e3d0);background-attachment:fixed}
+header{background:linear-gradient(110deg,#0d3426,#176344 65%,#238052);box-shadow:0 5px 20px #103b2b35;border-bottom:3px solid #a8d9a8}
+.brand{text-shadow:0 2px 0 #09291d;display:flex;align-items:center;gap:5px}
+.panel{background:linear-gradient(145deg,#ffffffed,#f3fbf2ed);border:1px solid #b8d9bf;box-shadow:0 12px 28px #174b2d1c,inset 0 1px #fff}
+button{background:linear-gradient(180deg,#278653,#176b43);box-shadow:0 4px 0 #105333,0 7px 14px #174b2d20;transition:transform .14s ease,filter .14s ease,box-shadow .14s ease}
+button:hover:not(:disabled){filter:brightness(1.07);transform:translateY(-2px);box-shadow:0 6px 0 #105333,0 10px 18px #174b2d25}
+button:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 #105333}
+input{box-shadow:inset 0 2px 4px #17352a0c;transition:border-color .15s,box-shadow .15s}
+input:focus{outline:none;border-color:#32945b;box-shadow:0 0 0 4px #32945b22}
+.board-wrap{background:linear-gradient(145deg,#d9f0dc,#b9dfc1);border-color:#8ec29a;box-shadow:0 12px 28px #174b2d20,inset 0 1px #fff}
+.board{background:linear-gradient(145deg,#9fcea9,#b7dfbf);box-shadow:inset 0 2px 8px #245b3325}
+.cell{background:linear-gradient(150deg,#fffef9,#f0f7ed);border-color:#c4d9c6;box-shadow:0 2px 4px #17352a12;transition:transform .16s ease,box-shadow .16s ease,filter .16s ease}
+.cell:not(.center):hover{z-index:3;transform:translateY(-2px);box-shadow:0 5px 10px #17352a25;filter:saturate(1.08)}
+.cell .stripe{box-shadow:0 2px 3px #17352a20}
+.cell.center{background:radial-gradient(circle at 50% 30%,#ffffff 0,#e9f8e8 48%,#cdebd2 100%);box-shadow:inset 0 0 0 2px #ffffffa8,inset 0 0 35px #75b98630}
+.center .earth{filter:drop-shadow(0 7px 6px #174b2d25);animation:earth-float 4s ease-in-out infinite}
+@keyframes earth-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.center h2{text-shadow:0 2px 0 #fff}
+.deck{transition:transform .2s ease,filter .2s ease;filter:drop-shadow(0 4px 4px #17352a18)}
+.deck:hover{transform:translateY(-5px) rotate(-2deg);filter:brightness(1.08)}
+.deck:nth-child(2):hover{transform:translateY(-5px) rotate(2deg)}
+.token{box-shadow:0 2px 0 #ffffff,0 4px 7px #17352a55;border:2px solid #fff;outline:1px solid #17352a22}
+.player{background:linear-gradient(100deg,#f3faf1,#e8f4e8);border:1px solid #d6e9d6;border-left:5px solid var(--pc);box-shadow:0 2px 6px #17352a0c;transition:transform .15s ease,box-shadow .15s ease}
+.player.active{outline:2px solid #f0c34c;background:linear-gradient(100deg,#fff9df,#fff1bd);box-shadow:0 4px 12px #d6a52b30;transform:translateX(2px)}
+.action{background:linear-gradient(145deg,#fff9e6,#fff1c7);box-shadow:0 5px 15px #b58c2a18}
+.log{border:1px solid #dcebdc;box-shadow:inset 0 2px 5px #17352a08}
+.pill{box-shadow:inset 0 1px #ffffffb8}
+.modalbox{border:1px solid #d6e9d6;box-shadow:0 20px 70px #061e1280;animation:modal-pop .22s ease-out}
+@media(max-width:600px){
+  body{background:linear-gradient(160deg,#eaf7e9,#d2ead8)}
+  .panel{border-radius:16px;box-shadow:0 7px 18px #174b2d18}
+  .board-wrap{box-shadow:0 6px 18px #174b2d20}
+  .cell{box-shadow:0 1px 3px #17352a18}
+  .cell:not(.center):hover{transform:none}
+  .center .earth{animation-duration:5s}
+  button:hover:not(:disabled){transform:none}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
 </style>
 </head>
 <body>
