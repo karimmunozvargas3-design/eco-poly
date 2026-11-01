@@ -144,6 +144,18 @@ input:focus{outline:none;border-color:#32945b;box-shadow:0 0 0 4px #32945b22}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
+
+/* ECO-POLY 3D: perspectiva y volumen CSS, sin exigir WebGL ni hardware potente. */
+.board-wrap{perspective:1250px;perspective-origin:50% 35%;background:linear-gradient(145deg,#d7efdb,#a8d4b2);box-shadow:0 18px 30px #174b2d26,inset 0 2px 5px #fff9;}
+.board{transform:rotateX(5deg);transform-origin:50% 45%;transform-style:preserve-3d;box-shadow:0 13px 0 #75ad81,0 18px 26px #174b2d35,inset 0 2px 8px #245b3325;}
+.cell{transform:translateZ(2px);box-shadow:0 3px 0 #b7cbb8,0 5px 7px #17352a18;}
+.cell.center{transform:translateZ(7px);box-shadow:0 8px 0 #acd5b3,0 12px 20px #17352a24;}
+.token{transform:translateZ(12px);box-shadow:0 5px 0 #344b3b,0 7px 10px #17352a55;}
+.property-visual{filter:drop-shadow(0 3px 2px #17352a55);}
+.board-die{transform:translateZ(12px);box-shadow:0 6px 0 #185d38,0 9px 14px #17352a40;}
+@media(max-width:600px){.board-wrap{perspective:1000px;}.board{transform:rotateX(2deg);transform-origin:50% 30%;box-shadow:0 8px 0 #75ad81,0 12px 18px #174b2d30;}.cell{box-shadow:0 2px 0 #b7cbb8,0 3px 4px #17352a16;}.cell.center{transform:translateZ(4px);}}
+@media(prefers-reduced-motion:reduce){.board,.cell,.token,.board-die{transition:none!important;animation:none!important;}}
+
 </style>
 </head>
 <body>
@@ -267,7 +279,7 @@ function groupColor(g){return ({"Agua y agricultura":"#4c9ed0","Río Limarí":"#
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function log(msg){const d=document.createElement("div");d.textContent=msg;$("log").prepend(d)}
 function showModal(title,desc,buttons){$("modalTitle").textContent=title;$("modalText").textContent=desc;$("modalButtons").innerHTML="";buttons.forEach(b=>{const x=document.createElement("button");x.textContent=b.label;x.onclick=()=>{closeModal();b.fn()};$("modalButtons").appendChild(x)});$("modal").classList.remove("hidden")}
-function closeModal(){$("modal").classList.add("hidden")}
+function closeModal(){$("modal").classList.add("hidden");eventCardVisible=false}
 function current(){return state?.players?.find(p=>p.id===state.current)}
 function myTurn(){return state&&state.current===socket.id&&!state.finished}
 function render(){
@@ -316,11 +328,13 @@ socket.on("connect",()=>{$("connection").textContent="Conectado";$("connection")
 socket.on("disconnect",()=>{$("connection").textContent="Reconectando…";$("connection").style.background="#ffe4c7"});
 socket.on("roomCreated",d=>enter(d.code,d.state));socket.on("joinedRoom",d=>enter(d.code,d.state));
 function enter(code,s){room=code;state=s;$("lobby").classList.add("hidden");$("game").classList.remove("hidden");$("log").innerHTML="";log(`Te uniste a la sala ${code}.`);render()}
-socket.on("state",s=>{state=s;render()});
+socket.on("state",s=>{state=s;render();if(state.pending?.player===socket.id&&state.pending.title&&!eventCardVisible){showEventCard({title:state.pending.title,description:state.pending.description});}});
 socket.on("notice",m=>log(m));
 socket.on("errorMessage",m=>showModal("Aviso",m,[{label:"Entendido",fn:()=>{}}]));
-socket.on("eventCard",e=>showEventCard(e));
+let eventCardVisible=false;
+socket.on("eventCard",e=>{if(!eventCardVisible)showEventCard(e)});
 function showEventCard(e){
+ if(eventCardVisible)return;eventCardVisible=true;
  const box=$("modal").querySelector(".modalbox");box.classList.add("event-reveal");$("modalTitle").textContent="🃏 ¡Carta ambiental!";$("modalText").innerHTML="";
  const face=document.createElement("div");face.className="event-card-face";
  const icon=document.createElement("div");icon.className="card-icon";icon.textContent="🌿";

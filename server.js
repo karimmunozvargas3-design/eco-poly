@@ -65,7 +65,7 @@ const rooms = new Map();
 const colors=["#e76f51","#277da1","#9b5de5","#43aa8b","#f8961e","#577590"];
 const avatars=["🦊","🐢","🦉","🐬","🐝","🦋"];
 const clean=s=>String(s||"").trim().slice(0,16);
-function publicState(r){return {host:r.host,players:r.players.map(p=>({id:p.id,name:p.name,cash:p.cash,pos:p.pos,color:p.color,avatar:p.avatar,green:p.green})),current:r.current,started:r.started,rolled:r.rolled,lastDice:r.lastDice,properties:r.properties,pending:r.pending?{player:r.pending.player}:null,finished:r.finished};}
+function publicState(r){return {host:r.host,players:r.players.map(p=>({id:p.id,name:p.name,cash:p.cash,pos:p.pos,color:p.color,avatar:p.avatar,green:p.green})),current:r.current,started:r.started,rolled:r.rolled,lastDice:r.lastDice,properties:r.properties,pending:r.pending?{player:r.pending.player,title:r.pending.card[0],description:r.pending.card[1]}:null,finished:r.finished};}
 function sendState(r){io.to(r.code).emit("state",publicState(r));}
 function notice(r,msg){io.to(r.code).emit("notice",msg);}
 function fail(s,msg){s.emit("errorMessage",msg);}
@@ -97,9 +97,26 @@ io.on("connection",s=>{
  s.on("payRent",()=>fail(s,"El alquiler se cobra automáticamente al caer en una propiedad ajena."));
  s.on("build",()=>{const r=getRoom(s);if(!active(r,s))return;const p=r.players.find(x=>x.id===s.id),o=r.properties[p.pos],cost=Math.floor(tiles[p.pos][3]*.6);if(!o||o.id!==p.id||tiles[p.pos][2]!=="land")return fail(s,"Solo puedes mejorar tus propios territorios.");if(p.cash<cost)return fail(s,"No tienes suficientes Eco-monedas.");if(o.level>=3)return fail(s,"Este territorio ya tiene el máximo de 3 mejoras.");p.cash-=cost;o.level++;p.green++;notice(r,`${p.name} construyó una mejora ecológica en ${tiles[p.pos][0]}. Alquiler aumentado.`);sendState(r);});
  s.on("drawEvent",()=>fail(s,"Las cartas se sacan automáticamente al caer en una casilla de evento."));
- s.on("resolveEvent",()=>{const r=getRoom(s);if(!r||!r.started||r.finished||r.current!==s.id||!r.rolled||!r.pending||r.pending.player!==s.id)return;const p=r.players.find(x=>x.id===s.id);if(!p)return;const c=r.pending.card;r.pending=null;p.cash+=c[2];if(c[0].includes("Restauración"))p.green++;notice(r,`${p.name}: ${c[0]} (${c[2]>=0?"+":""}${c[2]} Eco).`);const eliminated=bankrupt(r,p);if(!eliminated&&r.current===p.id&&!r.finished){notice(r,`${p.name} resolvió la carta. Su turno ha finalizado.`);finish(r);}else{sendState(r);}});
+ function resolvePendingCard(r,s){
+  if(!r||!r.started||r.finished||r.current!==s.id||!r.rolled||!r.pending||r.pending.player!==s.id)return false;
+  const p=r.players.find(x=>x.id===s.id);if(!p)return false;
+  const pending=r.pending;r.pending=null;const c=pending.card;p.cash+=c[2];
+  if(c[0].includes("Restauración"))p.green++;
+  notice(r,`${p.name}: ${c[0]} (${c[2]>=0?"+":""}${c[2]} Eco).`);
+  const eliminated=bankrupt(r,p);
+  if(!eliminated&&r.current===p.id&&!r.finished){notice(r,`${p.name} resolvió la carta. Su turno ha finalizado.`);finish(r);}
+  else sendState(r);
+  return true;
+ }
+ s.on("resolveEvent",()=>{const r=getRoom(s);if(!resolvePendingCard(r,s))return;});
  s.on("payTax",()=>{const r=getRoom(s);if(!active(r,s))return;const p=r.players.find(x=>x.id===s.id);p.cash-=tiles[p.pos][3];notice(r,`${p.name} aportó ${tiles[p.pos][3]} Eco-monedas al fondo planetario.`);bankrupt(r,p);sendState(r);});
- s.on("finishTurn",()=>{const r=getRoom(s);if(!active(r,s))return;const p=r.players.find(x=>x.id===s.id);if(tiles[p.pos][2]==="jail")p.green=Math.max(0,p.green);finish(r);});
+ s.on("finishTurn",()=>{const r=getRoom(s);if(!r||!r.started||r.finished||r.current!==s.id||!r.rolled)return;
+  // Fallback for a dismissed/lost card modal: resolve the pending card exactly once, then advance.
+  if(r.pending&&r.pending.player===s.id){resolvePendingCard(r,s);return;}
+  if(r.pending)return;
+  const p=r.players.find(x=>x.id===s.id);if(!p)return;
+  if(tiles[p.pos][2]==="jail")p.green=Math.max(0,p.green);finish(r);
+ });
  s.on("disconnect",()=>{const r=getRoom(s);if(!r)return;const p=r.players.find(x=>x.id===s.id);if(!p)return;if(!r.started){r.players=r.players.filter(x=>x.id!==s.id);if(r.players.length===0)rooms.delete(r.code);else{if(r.host===s.id)r.host=r.players[0].id;notice(r,`${p.name} salió de la sala.`);sendState(r);}}else{notice(r,`${p.name} se desconectó. Su lugar queda reservado hasta que termine la partida.`);}});
 });
 const PORT=process.env.PORT||3000;
