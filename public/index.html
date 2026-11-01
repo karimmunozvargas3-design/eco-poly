@@ -328,7 +328,7 @@ function showEventCard(e){
  const title=document.createElement("h3");title.textContent=e.title;
  const desc=document.createElement("p");desc.textContent=e.description;
  face.append(tag,icon,title,desc);$("modalText").appendChild(face);$("modalButtons").innerHTML="";
- const btn=document.createElement("button");btn.textContent="¡Aplicar carta!";btn.onclick=()=>{closeModal();box.classList.remove("event-reveal");socket.emit("resolveEvent")};$("modalButtons").appendChild(btn);$("modal").classList.remove("hidden");
+ const btn=document.createElement("button");btn.textContent="Aplicar carta y finalizar turno";let resolvingCard=false;btn.onclick=()=>{if(resolvingCard)return;resolvingCard=true;btn.disabled=true;btn.textContent="Aplicando y finalizando…";closeModal();box.classList.remove("event-reveal");socket.emit("resolveEvent")};$("modalButtons").appendChild(btn);$("modal").classList.remove("hidden");
 }
 socket.on("gameOver",m=>showModal("🏆 ¡Partida terminada!",m,[{label:"Cerrar",fn:()=>{}}]));
 </script>
